@@ -13,4 +13,5 @@
   tasks:
     - include_tasks: tasks/zsh-setup.yml
     - include_tasks: tasks/node-setup.yml
+    - include_tasks: tasks/rust-setup.yml
 
