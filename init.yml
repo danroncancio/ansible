@@ -11,5 +11,6 @@
       - install
       - core
   tasks:
-    - include: tasks/zsh-setup.yml
+    - include_tasks: tasks/zsh-setup.yml
+    - include_tasks: tasks/node-setup.yml
 
