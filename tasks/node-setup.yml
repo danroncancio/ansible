@@ -19,9 +19,15 @@
     - name: set zsh command
       set_fact:
         user_shell: { 'command': '{{ found_path }} -ic', 'alias': 'zsh' }
+        
+  tags:
+    - install
+    - node
 
-- name: Installing NVM
-  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+- name: Check NVM Version
+  shell: "{{ user_shell.command + ' \"source ~/.zshrc\"' }}"
+  register: nvm_version_response
+  changed_when: "nvm_version_response.rc != 0"
   tags:
     - install
     - node
@@ -30,14 +36,22 @@
   shell: "{{ user_shell.command + ' \"nvm --version\"' }}"
   register: nvm_version_response
   changed_when: "nvm_version_response.rc != 0"
+  tags:
+    - install
+    - node
 
 - name: Install Node LTS
   shell: "{{ user_shell.command + ' \"nvm install --lts\"' }}"
   register: node_version_response
   changed_when: "'already installed' not in node_version_response.stderr"
+  tags:
+    - install
+    - node
 
 - name: Install Node 14
   shell: "{{ user_shell.command + ' \"nvm install 14\"' }}"
   register: node_version_response
   changed_when: "'already installed' not in node_version_response.stderr"
-
+  tags:
+    - install
+    - node

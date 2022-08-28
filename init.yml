@@ -1,17 +1,22 @@
 - hosts: localhost
   vars:
   pre_tasks:
-  - name: Update Apt
+  - name: Update Dnf
     become: true
-    apt:
-      force_apt_get: true
-      update_cache: true
+    dnf:
+      update_cache: yes
       state: present
     tags:
       - install
       - core
   tasks:
+    - include_tasks: tasks/git-setup.yml
+      tags:
+        - git
     - include_tasks: tasks/zsh-setup.yml
+      tags: &tags_for_zsh_tasks ['install', 'productivity', 'dotfiles', 'zsh']
     - include_tasks: tasks/node-setup.yml
-    - include_tasks: tasks/rust-setup.yml
+      tags: 
+        - node
+    #- include_tasks: tasks/rust-setup.yml
 
